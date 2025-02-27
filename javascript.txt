@@ -1,0 +1,33 @@
+async function searchBooks() {
+    const query = document.getElementById('search').value;
+    const apiKey = 'AIzaSyD80lLgH4nCIuGYVhOmmAejK1-h7EhhTwo';  // Replace with your actual API key
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const bookList = document.getElementById('book-list');
+    bookList.innerHTML = '';
+
+    if (data.items) {
+        data.items.forEach(book => {
+            const bookInfo = book.volumeInfo;
+            const title = bookInfo.title || "No Title";
+            const authors = bookInfo.authors ? bookInfo.authors.join(', ') : "Unknown Author";
+            const thumbnail = bookInfo.imageLinks ? bookInfo.imageLinks.thumbnail : "https://via.placeholder.com/128x192?text=No+Image";
+            const link = bookInfo.infoLink || "#";
+
+            const bookDiv = document.createElement('div');
+            bookDiv.classList.add('book');
+            bookDiv.innerHTML = `
+                <img src="${thumbnail}" alt="${title}">
+                <h3>${title}</h3>
+                <p><strong>Author:</strong> ${authors}</p>
+                <a href="${link}" target="_blank">View on Google Books</a>
+            `;
+            bookList.appendChild(bookDiv);
+        });
+    } else {
+        bookList.innerHTML = '<p>No results found.</p>';
+    }
+}
