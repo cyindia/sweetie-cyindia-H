@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Books Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .book-list {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .book {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            width: 220px;
+            text-align: left;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Google Books Search</h1>
+    <input type="text" id="search" placeholder="Enter book title or author">
+    <button onclick="searchBooks()">Search</button>
+
+    <div class="book-list" id="book-list"></div>
+
+    <script>
+        async function searchBooks() {
+            const query = document.getElementById('search').value;
+            const apiKey = 'AIzaSyD80lLgH4nCIuGYVhOmmAejK1-h7EhhTwo';  // Replace with your actual API key
+            const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const bookList = document.getElementById('book-list');
+            bookList.innerHTML = '';
+
+            if (data.items) {
+                data.items.forEach(book => {
+                    const bookInfo = book.volumeInfo;
+                    const title = bookInfo.title || "No Title";
+                    const authors = bookInfo.authors ? bookInfo.authors.join(', ') : "Unknown Author";
+                    const thumbnail = bookInfo.imageLinks ? bookInfo.imageLinks.thumbnail : "https://via.placeholder.com/128x192?text=No+Image";
+                    const link = bookInfo.infoLink || "#";
+
+                    const bookDiv = document.createElement('div');
+                    bookDiv.classList.add('book');
+                    bookDiv.innerHTML = `
+                        <img src="${thumbnail}" alt="${title}">
+                        <h3>${title}</h3>
+                        <p><strong>Author:</strong> ${authors}</p>
+                        <a href="${link}" target="_blank">View on Google Books</a>
+                    `;
+                    bookList.appendChild(bookDiv);
+                });
+            } else {
+                bookList.innerHTML = '<p>No results found.</p>';
+            }
+        }
+    </script>
+
+</body>
+</html>
