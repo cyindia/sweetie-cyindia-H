@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+    background-color: #f5f5f5;
+}
+h1 {
+    color: #333;
+}
+input {
+    padding: 10px;
+    width: 300px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+.book-list {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.book {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px;
+    width: 220px;
+    text-align: left;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+a {
+    text-decoration: none;
+    color: #007bff;
+}
